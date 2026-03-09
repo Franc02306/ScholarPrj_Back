@@ -1,0 +1,105 @@
+﻿# ================================
+# BUILD
+# ================================
+bin/
+obj/
+out/
+publish/
+
+# ================================
+# VISUAL STUDIO
+# ================================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# ================================
+# PACKAGE / NUGET
+# ================================
+*.nupkg
+*.snupkg
+packages/
+
+# ================================
+# LOGS
+# ================================
+*.log
+logs/
+log/
+
+# ================================
+# TEST RESULTS
+# ================================
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# ================================
+# OS FILES
+# ================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+# ENVIRONMENT / SECRETS
+# ================================
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+
+# ================================
+# DATABASE / LOCAL FILES
+# ================================
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+# ================================
+# NODE (si agregas frontend)
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ================================
+# DOCKER
+# ================================
+docker-compose.override.yml
+
+# ================================
+# TEMP FILES
+# ================================
+*.tmp
+*.temp
+*.cache
+
+# ================================
+# PUBLISH FOLDERS
+# ================================
+dist/
+build/
+artifacts/
+
+# ================================
+# USER SECRETS (.NET)
+# ================================
+secrets.json
+
+# ================================
+# BACKUPS
+# ================================
+*.bak
+*.backup

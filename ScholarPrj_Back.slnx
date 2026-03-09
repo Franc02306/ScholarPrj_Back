@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ScholarPrj_Back.Application/ScholarPrj_Back.Application.csproj" />
+  <Project Path="ScholarPrj_Back.Domain/ScholarPrj_Back.Domain.csproj" />
+  <Project Path="ScholarPrj_Back.Infrastructure/ScholarPrj_Back.Infrastructure.csproj" />
+  <Project Path="ScholarPrj_Back/ScholarPrj_Back.csproj" />
+</Solution>
