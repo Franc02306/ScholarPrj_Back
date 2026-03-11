@@ -17,6 +17,16 @@ namespace ScholarPrj_Back.Application.Services.Users
         Task<ApiResponse<UserDetailResponse>> UpdateUserAsync(int id, UpdateUserRequest request);
 
         /// <summary>
+        /// Alternar el estado activo del usuario (activar/desactivar)
+        /// </summary>
+        Task<ApiResponse<string>> ToggleActiveUserAsync(int id);
+
+        /// <summary>
+        /// Eliminar al usuario una vez este inactivado
+        /// </summary>
+        Task<ApiResponse<string>> DeleteUserAsync(int id);
+
+        /// <summary>
         /// Obtener datos del usuario por el ID
         /// </summary>
         Task<ApiResponse<UserDetailResponse>> GetUserByIdAsync(int id);

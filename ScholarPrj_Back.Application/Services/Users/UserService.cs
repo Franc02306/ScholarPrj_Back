@@ -85,6 +85,51 @@ namespace ScholarPrj_Back.Application.Services.Users
         }
 
         /// <summary>
+        /// Alternar el estado activo del usuario (activar/desactivar)
+        /// </summary>
+        public async Task<ApiResponse<string>> ToggleActiveUserAsync(int id)
+        {
+            // 1. Obtener al usuario por ID
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+                return ApiResponse<string>.Fail("Usuario no encontrado");
+
+            // 2. Alternar el estado activo
+            user.IsActive = !user.IsActive;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            // 3. Guardar cambios
+            await _userRepository.UpdateUserAsync(user);
+            var status = user.IsActive ? "activado" : "desactivado";
+
+            // 4. Retornar respuesta
+            return ApiResponse<string>.Ok(null, $"Usuario {status} correctamente");
+        }
+
+        /// <summary>
+        /// Eliminar al usuario una vez este inactivado
+        /// </summary>
+        public async Task<ApiResponse<string>> DeleteUserAsync(int id)
+        {
+            // 1. Obtener al usuario por ID
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+                return ApiResponse<string>.Fail("Usuario no encontrado");
+
+            // 2. Validar que este inactivo
+            if (user.IsActive)
+                return ApiResponse<string>.Fail("No se puede eliminar un usuario activo.");
+
+            // 3. Eliminar usuario
+            await _userRepository.DeleteUserAsync(user);
+
+            // 4. Retornar respuesta
+            return ApiResponse<string>.Ok(null, "Usuario eliminado correctamente");
+        }
+
+        /// <summary>
         /// Obtener datos del usuario por el ID
         /// </summary>
         public async Task<ApiResponse<UserDetailResponse>> GetUserByIdAsync(int id)

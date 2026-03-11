@@ -52,6 +52,16 @@ namespace ScholarPrj_Back.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Alternar el estado activo del usuario (activar/desactivar)
+        /// </summary>
+        [HttpPatch("toggle-active/{id:int}")]
+        public async Task<IActionResult> ToggleActiveUser(int id)
+        {
+            var result = await _userService.ToggleActiveUserAsync(id);
+            return Ok(result);
+        }
+
         #endregion
 
         #region API GET
@@ -78,6 +88,20 @@ namespace ScholarPrj_Back.Controllers
         {
             var result = await _userService.GetListUsersAsync(filters);
 
+            return Ok(result);
+        }
+
+        #endregion
+
+        #region API DELETE
+
+        /// <summary>
+        /// Eliminar al usuario una vez este inactivado
+        /// </summary>
+        [HttpDelete("delete-user/{id:int}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _userService.DeleteUserAsync(id);
             return Ok(result);
         }
 

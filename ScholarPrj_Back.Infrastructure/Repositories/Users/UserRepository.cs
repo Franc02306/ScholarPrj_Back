@@ -33,6 +33,15 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         }
 
         /// <summary>
+        /// Eliminar al usuario una vez este inactivado
+        /// </summary>
+        public async Task DeleteUserAsync(User user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Obtener datos del usuario por el ID
         /// </summary>
         public async Task<User?> GetUserByIdAsync(int id)

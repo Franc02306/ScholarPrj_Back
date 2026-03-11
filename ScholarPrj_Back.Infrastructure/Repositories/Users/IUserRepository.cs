@@ -16,6 +16,11 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         Task<User> UpdateUserAsync(User user);
 
         /// <summary>
+        /// Eliminar al usuario una vez este inactivado
+        /// </summary>
+        Task DeleteUserAsync(User user);
+
+        /// <summary>
         /// Obtener datos del usuario por el ID
         /// </summary>
         Task<User?> GetUserByIdAsync(int id);
