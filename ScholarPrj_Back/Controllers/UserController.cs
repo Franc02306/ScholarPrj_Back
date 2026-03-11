@@ -70,6 +70,17 @@ namespace ScholarPrj_Back.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
+        /// </summary>
+        [HttpGet("list-users")]
+        public async Task<IActionResult> GetListUsers([FromQuery] UserFilterRequest filters)
+        {
+            var result = await _userService.GetListUsersAsync(filters);
+
+            return Ok(result);
+        }
+
         #endregion
     }
 }

@@ -20,5 +20,10 @@ namespace ScholarPrj_Back.Application.Services.Users
         /// Obtener datos del usuario por el ID
         /// </summary>
         Task<ApiResponse<UserDetailResponse>> GetUserByIdAsync(int id);
+
+        /// <summary>
+        /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
+        /// </summary>
+        Task<ApiResponse<List<UserListResponse>>> GetListUsersAsync(UserFilterRequest filters);
     }
 }

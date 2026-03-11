@@ -117,5 +117,36 @@ namespace ScholarPrj_Back.Application.Services.Users
             // 3. Retornar respuesta
             return ApiResponse<UserDetailResponse>.Ok(response);
         }
+
+        /// <summary>
+        /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
+        /// </summary>
+        public async Task<ApiResponse<List<UserListResponse>>> GetListUsersAsync(UserFilterRequest filters)
+        {
+            // 1. Consultar la lista de usuarios aplicando los filtros
+            var users = await _userRepository.GetListUsersAsync(filters);
+
+            // 2. Mapear la lista de entidades a la lista de respuestas
+            var response = users.Select(u => new UserListResponse
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                Gender = u.Gender,
+                IsActive = u.IsActive,
+                CreatedAt = u.CreatedAt,
+                UpdatedAt = u.UpdatedAt,
+                Role = new UtilsResponse
+                {
+                    Id = u.Role.Id,
+                    Name = u.Role.Name
+                }
+            }).ToList();
+
+            // 3. Retornar respuesta
+            return ApiResponse<List<UserListResponse>>.Ok(response);
+        }
     }
 }

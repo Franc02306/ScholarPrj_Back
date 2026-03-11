@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScholarPrj_Back.Domain.Entities;
+using ScholarPrj_Back.Domain.Requests.Users;
 using ScholarPrj_Back.Infrastructure.Data;
 
 namespace ScholarPrj_Back.Infrastructure.Repositories.Users
@@ -39,6 +40,33 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
             return await _context.Users
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        /// <summary>
+        /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
+        /// </summary>
+        public async Task<List<User>> GetListUsersAsync(UserFilterRequest filters)
+        {
+            var query = _context.Users.Include(u => u.Role).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filters.Gender))
+                query = query.Where(u => u.Gender == filters.Gender);
+
+            if (!string.IsNullOrWhiteSpace(filters.Email))
+                query = query.Where(u => u.Email.Contains(filters.Email));
+
+            if (filters.IsActive.HasValue)
+                query = query.Where(u => u.IsActive == filters.IsActive);
+
+            if (!string.IsNullOrWhiteSpace(filters.FullName))
+            {
+                var name = filters.FullName.ToLower();
+
+                query = query.Where(u =>
+                    (u.FirstName + " " + u.LastName).ToLower().Contains(name));
+            }
+
+            return await query.ToListAsync();
         }
 
         /// <summary>

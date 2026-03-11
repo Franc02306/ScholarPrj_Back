@@ -1,4 +1,5 @@
 ﻿using ScholarPrj_Back.Domain.Entities;
+using ScholarPrj_Back.Domain.Requests.Users;
 
 namespace ScholarPrj_Back.Infrastructure.Repositories.Users
 {
@@ -18,6 +19,11 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         /// Obtener datos del usuario por el ID
         /// </summary>
         Task<User?> GetUserByIdAsync(int id);
+
+        /// <summary>
+        /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
+        /// </summary>
+        Task<List<User>> GetListUsersAsync(UserFilterRequest filters);
 
         /// <summary>
         /// Verificar si existe un usuario con el mismo email
