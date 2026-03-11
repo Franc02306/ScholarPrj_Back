@@ -21,31 +21,31 @@ namespace ScholarPrj_Back.Middlewares
             {
                 context.Response.ContentType = "application/json";
 
-                var statusCode = StatusCodes.Status500InternalServerError;
-                var message = "Ocurrió un error interno.";
+                int statusCode;
+                string message;
 
-                // errores de validación
-                if (ex is ArgumentException || ex is InvalidOperationException)
+                switch (ex)
                 {
-                    statusCode = StatusCodes.Status400BadRequest;
-                    message = ex.Message;
-                }
+                    case ArgumentException:
+                    case InvalidOperationException:
+                        statusCode = StatusCodes.Status400BadRequest;
+                        message = ex.Message;
+                        break;
 
-                // errores de acceso no autorizado
-                if (ex is UnauthorizedAccessException)
-                {
-                    statusCode = StatusCodes.Status401Unauthorized;
-                    message = "No autorizado.";
+                    case UnauthorizedAccessException:
+                        statusCode = StatusCodes.Status401Unauthorized;
+                        message = ex.Message;
+                        break;
+
+                    default:
+                        statusCode = StatusCodes.Status500InternalServerError;
+                        message = "Ocurrió un error interno.";
+                        break;
                 }
 
                 context.Response.StatusCode = statusCode;
 
-                var response = new ApiResponse<object>
-                {
-                    Success = false,
-                    Message = message,
-                    Data = null
-                };
+                var response = ApiResponse<object>.Fail(message);
 
                 await context.Response.WriteAsJsonAsync(response);
             }

@@ -19,6 +19,9 @@ namespace ScholarPrj_Back.Domain.Entities
         [Column("role_id")]
         public int RoleId { get; set; }
 
+        [ForeignKey(nameof(RoleId))]
+        public Role Role { get; set; } = null!;
+
         [Column("first_name")]
         public string FirstName { get; set; } = null!;
 

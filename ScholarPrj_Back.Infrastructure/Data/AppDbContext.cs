@@ -9,7 +9,8 @@ namespace ScholarPrj_Back.Infrastructure.Data
             : base(options)
         {
         }
-
+        
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

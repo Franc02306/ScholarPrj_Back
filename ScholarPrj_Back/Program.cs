@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ScholarPrj_Back.Application.Logging;
 using ScholarPrj_Back.Application.Services.Users;
 using ScholarPrj_Back.Infrastructure.Configuration;
 using ScholarPrj_Back.Infrastructure.Data;
@@ -20,13 +21,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // CONFIGURATION
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings")
-);
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+builder.Services.Configure<ModuleLogging>(builder.Configuration.GetSection("ModuleLogging"));
 
 // JWT
 var jwtKey = builder.Configuration["JwtSettings:Key"];
@@ -64,6 +65,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<LoggingMiddleware>();
 
 app.UseHttpsRedirection();
 
