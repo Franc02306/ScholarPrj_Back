@@ -1,6 +1,6 @@
-﻿using ScholarPrj_Back.Domain.Responses.Common;
+﻿using Microsoft.IdentityModel.Tokens;
+using ScholarPrj_Back.Domain.Responses.Auth;
 using ScholarPrj_Back.Infrastructure.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,8 +11,9 @@ public static class JwtHelper
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Name, user.Username)
+            new Claim(ClaimTypes.NameIdentifier, user.UserDetail.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.UserDetail.UserName),
+            new Claim(ClaimTypes.Role, user.UserDetail.Role.Name)
         };
 
         var key = new SymmetricSecurityKey(

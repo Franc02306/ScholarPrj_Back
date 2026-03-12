@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ScholarPrj_Back.Application.Logging;
+using ScholarPrj_Back.Application.Services.Auth;
 using ScholarPrj_Back.Application.Services.Email;
 using ScholarPrj_Back.Application.Services.Users;
 using ScholarPrj_Back.Domain.Responses.Common;
 using ScholarPrj_Back.Infrastructure.Configuration;
 using ScholarPrj_Back.Infrastructure.Data;
+using ScholarPrj_Back.Infrastructure.Repositories.Auth;
 using ScholarPrj_Back.Infrastructure.Repositories.Commons;
 using ScholarPrj_Back.Infrastructure.Repositories.Users;
 using ScholarPrj_Back.Middlewares;
@@ -27,10 +29,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // SERVICES
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // REPOSITORIES
 builder.Services.AddScoped<IUtilsRepository, UtilsRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // CONFIGURATION

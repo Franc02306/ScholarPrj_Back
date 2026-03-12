@@ -26,17 +26,8 @@ namespace ScholarPrj_Back.Middlewares
 
                 switch (ex)
                 {
-                    // ERRORES INTERNOS (ocultar)
-                    case ArgumentNullException:
-                    case NullReferenceException:
-                    case IOException:
-                        statusCode = StatusCodes.Status500InternalServerError;
-                        message = "Ocurrió un error interno.";
-                        break;
-
-                    // ERRORES DE NEGOCIO (mostrar)
+                    // VALIDACIONES (permitidas mostrar)
                     case ArgumentException:
-                    case InvalidOperationException:
                         statusCode = StatusCodes.Status400BadRequest;
                         message = ex.Message;
                         break;
@@ -46,6 +37,7 @@ namespace ScholarPrj_Back.Middlewares
                         message = ex.Message;
                         break;
 
+                    // TODO lo demás = error interno
                     default:
                         statusCode = StatusCodes.Status500InternalServerError;
                         message = "Ocurrió un error interno.";

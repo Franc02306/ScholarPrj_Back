@@ -8,6 +8,7 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
+
         public UserRepository(AppDbContext context)
         {
             _context = context;
@@ -104,7 +105,7 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         public async Task<User?> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == username);
+                .Include(u => u.Role).FirstOrDefaultAsync(u => u.UserName == username);
         }
     }
 }
