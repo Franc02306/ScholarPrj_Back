@@ -1,4 +1,5 @@
 ﻿using ScholarPrj_Back.Application.Helpers;
+using ScholarPrj_Back.Application.Services.Email;
 using ScholarPrj_Back.Domain.Entities;
 using ScholarPrj_Back.Domain.Requests.Users;
 using ScholarPrj_Back.Domain.Responses.Common;
@@ -11,10 +12,12 @@ namespace ScholarPrj_Back.Application.Services.Users
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEmailService emailService)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -49,7 +52,12 @@ namespace ScholarPrj_Back.Application.Services.Users
             // 5. Proceder a la creación del usuario en la base de datos
             var createdUser = await _userRepository.CreateUserAsync(user);
 
-            // 6. Retornar respuesta
+            // 6. Enviar correo al nuevo usuario con las credenciales generadas
+            var isFemale = request.Gender?.ToUpper() == "F";
+
+            await _emailService.SendUserCredentialAsync(request.Email, request.UserName, generatedPassword, isFemale);
+
+            // 7. Retornar respuesta
             return ApiResponse<UserDetailResponse>.Ok(null, "Usuario creado correctamente");
         }
 

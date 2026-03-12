@@ -6,6 +6,7 @@ using ScholarPrj_Back.Domain.Requests.Users;
 
 namespace ScholarPrj_Back.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
