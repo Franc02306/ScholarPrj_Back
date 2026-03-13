@@ -26,6 +26,11 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         Task<User?> GetUserByIdAsync(int id);
 
         /// <summary>
+        /// Obtener los datos de un usuario mediante el correo electrónico
+        /// </summary>
+        Task<User?> GetUserByEmailAsync(string email);
+
+        /// <summary>
         /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
         /// </summary>
         Task<List<User>> GetListUsersAsync(UserFilterRequest filters);

@@ -58,6 +58,41 @@ namespace ScholarPrj_Back.Application.Services.Email
         }
 
         /// <summary>
+        /// Envía un correo con el enlace de recuperación de contraseña
+        /// </summary>
+        public async Task SendPasswordResetAsync(string email, string token)
+        {
+            var basePath = AppContext.BaseDirectory;
+            var templatePath = Path.Combine(basePath, _emailTemplates.ForgotPassword);
+
+            if (!File.Exists(templatePath))
+                throw new FileNotFoundException($"No se encontró la plantilla: {templatePath}");
+
+            // Determinar entorno
+            var baseUrl = _scholarPrjSettings.WebProd
+                ? _scholarPrjSettings.LinkProd
+                : _scholarPrjSettings.LinkDev;
+
+            var resetLink = $"{baseUrl}/reset-password?token={token}";
+
+            var html = await File.ReadAllTextAsync(templatePath);
+
+            html = html.Replace("{{RESET_LINK}}", resetLink);
+
+            var message = new MimeMessage();
+            message.From.Add(MailboxAddress.Parse(_emailSettings.FromEmail));
+            message.To.Add(MailboxAddress.Parse(email));
+            message.Subject = "Recuperación de contraseña - Web Entregas a Rendir";
+
+            message.Body = new TextPart("html")
+            {
+                Text = html
+            };
+
+            await SendAsync(message);
+        }
+
+        /// <summary>
         /// Método base para enviar correos (conecta, envía y desconecta)
         /// </summary>
         private async Task SendAsync(MimeMessage message)

@@ -6,5 +6,10 @@
         /// Envia un correo al nuevo usuario con las credenciales generadas por el sistema
         /// </summary>
         Task SendUserCredentialAsync(string email, string username, string password, bool isFemale);
+
+        /// <summary>
+        /// Envía un correo con el enlace de recuperación de contraseña
+        /// </summary>
+        Task SendPasswordResetAsync(string email, string token);
     }
 }

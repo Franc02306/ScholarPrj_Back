@@ -53,6 +53,15 @@ namespace ScholarPrj_Back.Infrastructure.Repositories.Users
         }
 
         /// <summary>
+        /// Obtener los datos de un usuario mediante el correo electrónico
+        /// </summary>
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users
+                .Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        /// <summary>
         /// Obtener lista de usuarios con filtros opcionales (género, nombre completo, correo electrónico, estado activo)
         /// </summary>
         public async Task<List<User>> GetListUsersAsync(UserFilterRequest filters)
