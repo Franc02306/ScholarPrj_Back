@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using ScholarPrj_Back.Application.Logging;
 using ScholarPrj_Back.Application.Services.Auth;
 using ScholarPrj_Back.Application.Services.Email;
+using ScholarPrj_Back.Application.Services.Students;
+using ScholarPrj_Back.Application.Services.Teachers;
 using ScholarPrj_Back.Application.Services.Users;
 using ScholarPrj_Back.Domain.Responses.Common;
 using ScholarPrj_Back.Infrastructure.Configuration;
@@ -31,6 +33,8 @@ builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 // REPOSITORIES
 builder.Services.AddScoped<IUtilsRepository, UtilsRepository>();
@@ -103,6 +107,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // PIPELINE
@@ -116,6 +132,8 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
